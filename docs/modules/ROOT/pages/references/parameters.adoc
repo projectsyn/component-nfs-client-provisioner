@@ -6,7 +6,7 @@ The parent key for all of the following parameters is `nfs_client_provisioner`.
 
 [horizontal]
 type:: string
-default:: `syn-storage`
+default:: `syn-nfs-client-provisioner`
 
 The namespace in which to deploy this component.
 
@@ -25,6 +25,14 @@ type:: string
 default:: `/srv/nfs/export`
 
 Path to the NFS share on the server.
+
+== `mountOptions`
+
+[horizontal]
+type:: list
+default:: null
+
+Mount options for the NFS share.
 
 == Example
 

@@ -22,7 +22,7 @@ parameters:
           nfs:
             server: ${nfs_client_provisioner:server}
             path: ${nfs_client_provisioner:path}
-            # mountOptions: [ _netdev,noatime,soft ]
+            mountOptions: ${nfs_client_provisioner:mountOptions}
           storageClass:
             create: false
       - output_path: nfs-client-provisioner

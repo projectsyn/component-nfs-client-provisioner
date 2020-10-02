@@ -3,5 +3,6 @@ parameters:
     namespace: syn-nfs-client-provisioner
     server: nfs.local
     path: /srv/nfs/export
+    mountOptions: null
     charts:
       nfs_client_provisioner: 1.2.9

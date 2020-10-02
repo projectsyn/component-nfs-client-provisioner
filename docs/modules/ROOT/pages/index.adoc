@@ -2,4 +2,23 @@
 
 nfs-client-provisioner is a Commodore component to manage nfs-client-provisioner.
 
-See the xref:references/parameters.adoc[parameters] reference for further details.
+See the xref:references/parameters.adoc[parameters] reference for details on
+configurable options.
+
+== Prerequisites
+
+The following packages have to be installed on the host system:
+
+RHEL / CentOS::
+
+[source,bash]
+----
+yum install -y nfs-utils
+----
+
+Ubuntu / Debian::
+
+[source,bash]
+----
+apt install -y nfs-common
+----

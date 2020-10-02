@@ -1,3 +1,7 @@
 parameters:
   nfs_client_provisioner:
     namespace: syn-nfs-client-provisioner
+    server: nfs.local
+    path: /srv/nfs/export
+    charts:
+      nfs_client_provisioner: 1.2.9

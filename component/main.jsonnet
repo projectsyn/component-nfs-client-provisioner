@@ -7,4 +7,5 @@ local params = inv.parameters.nfs_client_provisioner;
 
 // Define outputs below
 {
+  '00_namespace': kube.Namespace(params.namespace),
 }

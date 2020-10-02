@@ -1,0 +1,3 @@
+parameters:
+  nfs_client_provisioner:
+    namespace: syn-nfs-client-provisioner

@@ -33,6 +33,43 @@ type:: list
 default:: null
 
 Mount options for the NFS share.
+Mount options are also configured in the storage class, so any volumes created by the provisioner are mounted with the specified options.
+
+== `provisionerName`
+
+[horizontal]
+type:: string
+default:: nfs-client-provisioner
+
+Name of the provisioner.
+Used in the storage class definition.
+
+== `storageClass.name`
+
+[horizontal]
+type:: string
+default:: nfs
+
+Name of the storage class which is created.
+
+NOTE: The component does not make the storageclass the default class
+Users can define a default storage class through component storageclass.
+
+== `storageClass.archiveOnDelete`
+
+[horizontal]
+type:: boolean
+default:: true
+
+When set to false your PVs will not be archived by the provisioner upon deletion of the PVC.
+
+== `storageClass.reclaimPolicy`
+
+[horizontal]
+type:: string
+default:: Delete
+
+Method used to reclaim an obsoleted volume
 
 == Example
 
@@ -43,4 +80,19 @@ parameters:
     namespace: example-namespace
     server: nfs.example.org
     path: /srv/nfs/k8s
+----
+
+Configure nfs storage class as default class (via component storageclass)
+
+[source,yaml]
+----
+parameters:
+  nfs_client_provisioner:
+    namespace: example-namespace
+    server: nfs.example.org
+    path: /srv/nfs/k8s
+    storageClass:
+      name: nfs
+  storageclass:
+    defaultClass: ${nfs_client_provisioner:storageClass:name}
 ----

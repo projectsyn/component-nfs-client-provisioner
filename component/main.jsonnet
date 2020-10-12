@@ -6,18 +6,31 @@ local inv = kap.inventory();
 // The hiera parameters for the component
 local params = inv.parameters.nfs_client_provisioner;
 
-local storageclass = sc.storageClass(params.storageClass.name) {
-  parameters: {
-    archiveOnDelete: params.storageClass.archiveOnDelete,
-  },
+// component defaults for all storage classes, can be overridden by specifying
+// the fields in the hierarchy.
+local scDefaults = {
   allowVolumeExpansion: true,
-  provisioner: 'cluster.local/' + params.provisionerName,
-  reclaimPolicy: params.storageClass.reclaimPolicy,
-  mountOptions: params.mountOptions,
+  mountOptions: params.pvMountOptions,
+  parameters: {
+    archiveOnDelete: true,
+  },
+  reclaimPolicy: 'Delete',
 };
+
+// Create storageclasses from entries in params.storageClasses.
+local storageclasses = std.map(
+  // prune resulting StorageClass objects to remove fields with null values
+  std.prune,
+  [
+    sc.storageClass(class) + scDefaults + params.storageClasses[class] + {
+      provisioner: params.provisionerName,
+    }
+    for class in std.objectFields(params.storageClasses)
+  ]
+);
 
 // Define outputs below
 {
   '00_namespace': kube.Namespace(params.namespace),
-  '10_storageclass': storageclass,
+  '10_storageclasses': storageclasses,
 }

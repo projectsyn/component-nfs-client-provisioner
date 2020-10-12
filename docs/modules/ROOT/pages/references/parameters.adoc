@@ -17,6 +17,7 @@ type:: string
 default:: `nfs.local`
 
 The NFS server from which to mount the NFS share.
+This parameter *must* be set, unless the NFS server is reachable at `nfs.local`.
 
 == `path`
 
@@ -25,53 +26,69 @@ type:: string
 default:: `/srv/nfs/export`
 
 Path to the NFS share on the server.
+This parameter *must* be set, unless the share for the nfs-client-provisioner is exported at `/srv/nfs/export`.
 
-== `mountOptions`
+== `pvMountOptions`
 
 [horizontal]
 type:: list
 default:: null
 
 Mount options for the NFS share.
-Mount options are also configured in the storage class, so any volumes created by the provisioner are mounted with the specified options.
+This set of mount options is also used as the default for all storage classes.
+When leaving this field empty, the NFS share is mounted with the underlying OS's default mount options for NFS.
 
 == `provisionerName`
 
 [horizontal]
 type:: string
-default:: nfs-client-provisioner
+default:: cluster.local/nfs-client-provisioner
 
 Name of the provisioner.
-Used in the storage class definition.
+Used to associate storage classes with the provisioner instance.
 
-== `storageClass.name`
-
-[horizontal]
-type:: string
-default:: nfs
-
-Name of the storage class which is created.
-
-NOTE: The component does not make the storageclass the default class
-Users can define a default storage class through component storageclass.
-
-== `storageClass.archiveOnDelete`
+== `storageClasses`
 
 [horizontal]
-type:: boolean
-default:: true
+type:: object
+default:: `{"nfs":{}}`
 
-When set to false your PVs will not be archived by the provisioner upon deletion of the PVC.
+Object containing storage class definitions for nfs-client-provisioner.
+All storage classes will be configured to use the nfs-client-provisioner instance managed by this component as the provisioner.
 
-== `storageClass.reclaimPolicy`
+Keys in the object will be used as names for the storage classes to be created.
+Each key is expected to hold an object with arbitrary valid fields for the Kubernetes `StorageClass` resource.
+The component does not validate whether all provided fields are valid for the Kubernetes `StorageClass` resource.
 
-[horizontal]
-type:: string
-default:: Delete
+The component will take care of pruning all "empty" fields in the resulting `StorageClass` objects.
+"Empty" is defined as zero length arrays, zero length objects, or null values, cf. https://jsonnet.org/ref/stdlib.html#prune[Jsonnet's `std.prune`].
 
-Method used to reclaim an obsoleted volume
+The component will configure the following fields in the `StorageClass` objects, unless overridden for a specific storage class:
 
-== Example
+[source,yaml]
+----
+allowVolumeExpansion: true
+mountOptions: ${pvMountOptions}
+parameters:
+  archiveOnDelete: true
+reclaimPolicy: Delete
+----
+
+By default the component defines a single storage class called `nfs`, with the fields listed above.
+
+== Examples
+
+The minimal required configuration must provide the NFS server and share path.
+
+[source,yaml]
+----
+parameters:
+  nfs_client_provisioner:
+    server: nfs.example.org
+    path: /srv/nfs/k8s
+----
+
+Configure archiving NFS storage class as default class (via component storageclass) and provide second non-archiving storage class
 
 [source,yaml]
 ----
@@ -80,19 +97,11 @@ parameters:
     namespace: example-namespace
     server: nfs.example.org
     path: /srv/nfs/k8s
-----
-
-Configure nfs storage class as default class (via component storageclass)
-
-[source,yaml]
-----
-parameters:
-  nfs_client_provisioner:
-    namespace: example-namespace
-    server: nfs.example.org
-    path: /srv/nfs/k8s
-    storageClass:
-      name: nfs
+    storageClasses:
+      nfs: {}
+      nfs-noarchive:
+        parameters:
+          archiveOnDelete: false
   storageclass:
-    defaultClass: ${nfs_client_provisioner:storageClass:name}
+    defaultClass: nfs
 ----

@@ -3,11 +3,9 @@ parameters:
     namespace: syn-nfs-client-provisioner
     server: nfs.local
     path: /srv/nfs/export
-    mountOptions: null
-    provisionerName: nfs-client-provisioner
-    storageClass:
-      name: nfs
-      archiveOnDelete: true
-      reclaimPolicy: Delete
+    pvMountOptions: null
+    provisionerName: cluster.local/nfs-client-provisioner
+    storageClasses:
+      nfs: {}
     charts:
       nfs_client_provisioner: 1.2.9

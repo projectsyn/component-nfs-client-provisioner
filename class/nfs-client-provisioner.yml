@@ -22,9 +22,10 @@ parameters:
           nfs:
             server: ${nfs_client_provisioner:server}
             path: ${nfs_client_provisioner:path}
-            mountOptions: ${nfs_client_provisioner:mountOptions}
+            mountOptions: ${nfs_client_provisioner:pvMountOptions}
           storageClass:
             create: false
+            provisionerName: ${nfs_client_provisioner:provisionerName}
       - output_path: nfs-client-provisioner
         input_type: jsonnet
         output_type: yaml

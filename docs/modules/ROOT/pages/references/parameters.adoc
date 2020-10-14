@@ -10,10 +10,98 @@ default:: `syn-nfs-client-provisioner`
 
 The namespace in which to deploy this component.
 
+== `server`
 
-== Example
+[horizontal]
+type:: string
+default:: `nfs.local`
+
+The NFS server from which to mount the NFS share.
+This parameter *must* be set, unless the NFS server is reachable at `nfs.local`.
+
+== `path`
+
+[horizontal]
+type:: string
+default:: `/srv/nfs/export`
+
+Path to the NFS share on the server.
+This parameter *must* be set, unless the share for the nfs-client-provisioner is exported at `/srv/nfs/export`.
+
+== `pvMountOptions`
+
+[horizontal]
+type:: list
+default:: null
+
+Mount options for the NFS share.
+This set of mount options is also used as the default for all storage classes.
+When leaving this field empty, the NFS share is mounted with the underlying OS's default mount options for NFS.
+
+== `provisionerName`
+
+[horizontal]
+type:: string
+default:: cluster.local/nfs-client-provisioner
+
+Name of the provisioner.
+Used to associate storage classes with the provisioner instance.
+
+== `storageClasses`
+
+[horizontal]
+type:: object
+default:: `{"nfs":{}}`
+
+Object containing storage class definitions for nfs-client-provisioner.
+All storage classes will be configured to use the nfs-client-provisioner instance managed by this component as the provisioner.
+
+Keys in the object will be used as names for the storage classes to be created.
+Each key is expected to hold an object with arbitrary valid fields for the Kubernetes `StorageClass` resource.
+The component does not validate whether all provided fields are valid for the Kubernetes `StorageClass` resource.
+
+The component will take care of pruning all "empty" fields in the resulting `StorageClass` objects.
+"Empty" is defined as zero length arrays, zero length objects, or null values, cf. https://jsonnet.org/ref/stdlib.html#prune[Jsonnet's `std.prune`].
+
+The component will configure the following fields in the `StorageClass` objects, unless overridden for a specific storage class:
 
 [source,yaml]
 ----
-namespace: example-namespace
+allowVolumeExpansion: true
+mountOptions: ${pvMountOptions}
+parameters:
+  archiveOnDelete: true
+reclaimPolicy: Delete
+----
+
+By default the component defines a single storage class called `nfs`, with the fields listed above.
+
+== Examples
+
+The minimal required configuration must provide the NFS server and share path.
+
+[source,yaml]
+----
+parameters:
+  nfs_client_provisioner:
+    server: nfs.example.org
+    path: /srv/nfs/k8s
+----
+
+Configure archiving NFS storage class as default class (via component storageclass) and provide second non-archiving storage class
+
+[source,yaml]
+----
+parameters:
+  nfs_client_provisioner:
+    namespace: example-namespace
+    server: nfs.example.org
+    path: /srv/nfs/k8s
+    storageClasses:
+      nfs: {}
+      nfs-noarchive:
+        parameters:
+          archiveOnDelete: false
+  storageclass:
+    defaultClass: nfs
 ----

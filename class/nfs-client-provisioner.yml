@@ -1,11 +1,33 @@
 parameters:
   kapitan:
+    dependencies:
+      - type: helm
+        source: https://kubernetes-charts.storage.googleapis.com
+        version: ${nfs_client_provisioner:charts:nfs_client_provisioner}
+        chart_name: nfs-client-provisioner
+        output_path: dependencies/nfs-client-provisioner/helmcharts/nfs-client-provisioner
     compile:
       - input_paths:
           - nfs-client-provisioner/component/app.jsonnet
         input_type: jsonnet
         output_path: apps/
-      - input_paths:
-          - nfs-client-provisioner/component/main.jsonnet
+      - output_path: nfs-client-provisioner/01_helmchart
+        input_type: helm
+        input_paths:
+          - nfs-client-provisioner/helmcharts/nfs-client-provisioner
+        helm_params:
+          release_name: platform
+          namespace: ${nfs_client_provisioner:namespace}
+        helm_values:
+          nfs:
+            server: ${nfs_client_provisioner:server}
+            path: ${nfs_client_provisioner:path}
+            mountOptions: ${nfs_client_provisioner:pvMountOptions}
+          storageClass:
+            create: false
+            provisionerName: ${nfs_client_provisioner:provisionerName}
+      - output_path: nfs-client-provisioner
         input_type: jsonnet
-        output_path: nfs-client-provisioner/
+        output_type: yaml
+        input_paths:
+          - nfs-client-provisioner/component/main.jsonnet

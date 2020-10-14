@@ -2,4 +2,26 @@
 
 nfs-client-provisioner is a Commodore component to manage nfs-client-provisioner.
 
-See the xref:references/parameters.adoc[parameters] reference for further details.
+See the xref:references/parameters.adoc[parameters] reference for details on configurable options.
+
+NOTE: This component uses
+https://github.com/projectsyn/component-storageclass[the Project Syn component storageclass] to create one or more storage classes for the nfs-client-provisioner.
+Users of this component must include `components.storageclass` somewhere in their configuration hierarchy.
+
+== Prerequisites
+
+The following packages have to be installed on the host system:
+
+RHEL / CentOS::
+
+[source,bash]
+----
+yum install -y nfs-utils
+----
+
+Ubuntu / Debian::
+
+[source,bash]
+----
+apt install -y nfs-common
+----

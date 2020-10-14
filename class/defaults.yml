@@ -1,3 +1,11 @@
 parameters:
   nfs_client_provisioner:
     namespace: syn-nfs-client-provisioner
+    server: nfs.local
+    path: /srv/nfs/export
+    pvMountOptions: null
+    provisionerName: cluster.local/nfs-client-provisioner
+    storageClasses:
+      nfs: {}
+    charts:
+      nfs_client_provisioner: 1.2.9

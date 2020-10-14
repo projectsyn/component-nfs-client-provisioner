@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 
-- …
+- Initial implementation ([#1])
 
-[Unreleased]: https://github.com/projectsyn/component-nfs-client-provisioner/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/projectsyn/component-nfs-client-provisioner/compare/1dee7be0a89165228756f70a106e8d8f62cbf5eb...HEAD
+[#1]: https://github.com/projectsyn/component-nfs-client-provisioner/pull/1

@@ -11,7 +11,7 @@ parameters:
           - nfs-client-provisioner/component/app.jsonnet
         input_type: jsonnet
         output_path: apps/
-      - output_path: nfs-client-provisioner/01_helmchart
+      - output_path: nfs-client-provisioner/${nfs_client_provisioner:_instance}/01_helmchart
         input_type: helm
         input_paths:
           - nfs-client-provisioner/helmcharts/nfs-client-provisioner
@@ -26,7 +26,7 @@ parameters:
           storageClass:
             create: false
             provisionerName: ${nfs_client_provisioner:provisionerName}
-      - output_path: nfs-client-provisioner
+      - output_path: nfs-client-provisioner/${nfs_client_provisioner:_instance}
         input_type: jsonnet
         output_type: yaml
         input_paths:

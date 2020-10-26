@@ -16,7 +16,7 @@ parameters:
         input_paths:
           - nfs-client-provisioner/helmcharts/nfs-client-provisioner
         helm_params:
-          release_name: platform
+          release_name: ${nfs_client_provisioner:_instance}
           namespace: ${nfs_client_provisioner:namespace}
         helm_values:
           nfs:

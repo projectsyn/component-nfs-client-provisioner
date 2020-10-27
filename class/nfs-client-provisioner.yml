@@ -31,3 +31,11 @@ parameters:
         output_type: yaml
         input_paths:
           - nfs-client-provisioner/component/main.jsonnet
+  commodore:
+    postprocess:
+      filters:
+        - path: nfs-client-provisioner/${nfs_client_provisioner:_instance}/01_helmchart/nfs-client-provisioner/templates
+          type: builtin
+          filter: helm_namespace
+          filterargs:
+            namespace: ${nfs_client_provisioner:namespace}

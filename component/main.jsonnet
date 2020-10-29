@@ -5,7 +5,7 @@ local sc = import 'lib/storageclass.libsonnet';
 local inv = kap.inventory();
 // The hiera parameters for the component
 local params = inv.parameters.nfs_client_provisioner;
-local instance = params._instance;
+local instance = inv.parameters._instance;
 
 // component defaults for all storage classes, can be overridden by specifying
 // the fields in the hierarchy.
@@ -18,11 +18,7 @@ local scDefaults = {
   reclaimPolicy: 'Delete',
 };
 
-local scName(class) =
-  if instance != "default" then
-    "%s-%s" % [instance, class ]
-  else
-    class;
+local scName(class) = "%s-%s" % [instance, class ];
 
 // Create storageclasses from entries in params.storageClasses.
 local storageclasses = std.map(

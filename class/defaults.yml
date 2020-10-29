@@ -1,17 +1,11 @@
 parameters:
   nfs_client_provisioner:
-    # this key will be overwritten by Commodore for multi-instance. The value
-    # "default" has special meaning to allow simpler names for non-namespaced
-    # objects when only a single instance is used, and is disallowed as an
-    # instance name by Commodore.
-    # Commodore uses the presence of field _instance=default as a marker for
-    # components that support instantiation.
-    _instance: default
+    multi_instance: true
     namespace: syn-nfs-client-provisioner
     server: nfs.local
     path: /srv/nfs/export
     pvMountOptions: null
-    provisionerName: cluster.local/nfs-client-provisioner-${nfs_client_provisioner:_instance}
+    provisionerName: cluster.local/nfs-client-provisioner-${_instance}
     storageClasses:
       nfs: {}
     charts:

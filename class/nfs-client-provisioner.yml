@@ -11,12 +11,12 @@ parameters:
           - nfs-client-provisioner/component/app.jsonnet
         input_type: jsonnet
         output_path: apps/
-      - output_path: nfs-client-provisioner/${nfs_client_provisioner:_instance}/01_helmchart
+      - output_path: nfs-client-provisioner/${_instance}/01_helmchart
         input_type: helm
         input_paths:
           - nfs-client-provisioner/helmcharts/nfs-client-provisioner
         helm_params:
-          release_name: ${nfs_client_provisioner:_instance}
+          release_name: ${_instance}
           namespace: ${nfs_client_provisioner:namespace}
         helm_values:
           nfs:
@@ -26,7 +26,7 @@ parameters:
           storageClass:
             create: false
             provisionerName: ${nfs_client_provisioner:provisionerName}
-      - output_path: nfs-client-provisioner/${nfs_client_provisioner:_instance}
+      - output_path: nfs-client-provisioner/${_instance}
         input_type: jsonnet
         output_type: yaml
         input_paths:
@@ -34,7 +34,7 @@ parameters:
   commodore:
     postprocess:
       filters:
-        - path: nfs-client-provisioner/${nfs_client_provisioner:_instance}/01_helmchart/nfs-client-provisioner/templates
+        - path: nfs-client-provisioner/${_instance}/01_helmchart/nfs-client-provisioner/templates
           type: builtin
           filter: helm_namespace
           filterargs:

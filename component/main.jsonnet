@@ -12,7 +12,7 @@ local scDefaults = {
   allowVolumeExpansion: true,
   mountOptions: params.pvMountOptions,
   parameters: {
-    archiveOnDelete: true,
+    archiveOnDelete: 'true',
   },
   reclaimPolicy: 'Delete',
 };

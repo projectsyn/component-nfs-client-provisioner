@@ -34,6 +34,5 @@ local storageclasses = std.map(
 
 // Define outputs below
 {
-  '00_namespace': kube.Namespace(params.namespace),
   '10_storageclasses': storageclasses,
 }

@@ -11,6 +11,10 @@ parameters:
           - nfs-client-provisioner/component/app.jsonnet
         input_type: jsonnet
         output_path: apps/
+      - input_paths:
+          - nfs-client-provisioner/component/ns.jsonnet
+        input_type: jsonnet
+        output_path: nfs-client-provisioner/
       - output_path: nfs-client-provisioner/${_instance}/01_helmchart
         input_type: helm
         input_paths:

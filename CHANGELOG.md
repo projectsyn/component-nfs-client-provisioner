@@ -12,7 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Change helm source to https://charts.containeroo.ch ([#4])
+- Remove helm namespace postprocess filter ([#5])
 
 [Unreleased]: https://github.com/projectsyn/component-nfs-client-provisioner/compare/1dee7be0a89165228756f70a106e8d8f62cbf5eb...HEAD
 [#1]: https://github.com/projectsyn/component-nfs-client-provisioner/pull/1
 [#4]: https://github.com/projectsyn/component-nfs-client-provisioner/pull/4
+[#5]: https://github.com/projectsyn/component-nfs-client-provisioner/pull/5

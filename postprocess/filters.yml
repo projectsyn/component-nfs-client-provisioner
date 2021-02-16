@@ -1,6 +1,0 @@
-filters:
-  - path: nfs-client-provisioner/01_helmchart/nfs-client-provisioner/templates
-    type: builtin
-    filter: helm_namespace
-    filterargs:
-      namespace: ${nfs_client_provisioner:namespace}

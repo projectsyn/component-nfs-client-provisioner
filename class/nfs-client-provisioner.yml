@@ -2,7 +2,7 @@ parameters:
   kapitan:
     dependencies:
       - type: helm
-        source: https://kubernetes-charts.storage.googleapis.com
+        source: https://charts.containeroo.ch
         version: ${nfs_client_provisioner:charts:nfs_client_provisioner}
         chart_name: nfs-client-provisioner
         output_path: dependencies/nfs-client-provisioner/helmcharts/nfs-client-provisioner

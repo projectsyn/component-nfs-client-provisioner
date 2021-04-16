@@ -1,3 +1,8 @@
+# ⚠️ Repo Archive Notice
+
+As of Apr 16, 2021, this component will no longer be updated.
+Use the successor component [component-nfs-subdir-external-provisioner](https://github.com/projectsyn/component-nfs-subdir-external-provisioner).
+
 # Commodore Component: nfs-client-provisioner
 
 This is a [Commodore][commodore] Component for nfs-client-provisioner.

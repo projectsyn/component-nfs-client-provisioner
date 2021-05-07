@@ -1,5 +1,11 @@
 parameters:
   nfs_client_provisioner:
+    =_metadata:
+      deprecated: True
+      replaced_by: nfs-subdir-external-provisioner
+      deprecation_notice: >-
+        See https://github.com/projectsyn/component-nfs-subdir-external-provisioner/blob/master/docs/modules/ROOT/pages/references/parameters.adoc
+        for the set of parameters supported by nfs-subdir-external-provisioner.
     namespace: syn-nfs-client-provisioner
     server: nfs.local
     path: /srv/nfs/export
